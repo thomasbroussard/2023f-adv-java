@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/tdd-examples/pom.xml" />
+        <option value="$PROJECT_DIR$/dependency-injection/pom.xml" />
       </list>
     </option>
   </component>
