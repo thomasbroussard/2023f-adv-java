@@ -7,13 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientDAOImpl implements IPatientDAO {
+public class PatientDAOH2Impl implements IPatientDAO {
 
     private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String JDBC_USER = "sa";
     private static final String JDBC_PASSWORD = "";
 
-    public PatientDAOImpl() throws Exception {
+    public PatientDAOH2Impl() throws Exception {
         // Initialize database and create table if not exists
         try (Connection connection = getConnection();
              Statement stmt = connection.createStatement()) {
