@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PatientDAOImpl implements IPatientDAO {
 
-    private static final String JDBC_URL = "jdbc:h2:~/test";
+    private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String JDBC_USER = "sa";
     private static final String JDBC_PASSWORD = "";
 
@@ -31,9 +31,16 @@ public class PatientDAOImpl implements IPatientDAO {
     public void create(Patient patient) throws Exception {
         String sql = "INSERT INTO PATIENT (NAME) VALUES (?)";
         try (Connection connection = getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, patient.getName());
             pstmt.executeUpdate();
+
+            // Retrieve the generated keys
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    patient.setId(generatedKeys.getInt(1));
+                }
+            }
         }
     }
 

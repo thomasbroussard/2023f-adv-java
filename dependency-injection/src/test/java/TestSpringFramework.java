@@ -30,9 +30,11 @@ public class TestSpringFramework {
         Patient patient = new Patient();
         patient.setName("toto");
 
+        System.out.println(patient.getId());
         //when
         dao.create(patient);
 
+        System.out.println(patient.getId());
         //then
         Patient read = dao.read(patient.getId());
         Assertions.assertNotNull(read);
