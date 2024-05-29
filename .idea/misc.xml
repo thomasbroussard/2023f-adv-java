@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/tdd-examples/pom.xml" />
         <option value="$PROJECT_DIR$/dependency-injection/pom.xml" />
+        <option value="$PROJECT_DIR$/training-exam/pom.xml" />
       </list>
     </option>
   </component>

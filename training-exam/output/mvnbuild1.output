@@ -1,0 +1,51 @@
+C:\Users\Présentation\.jdks\temurin-17.0.9\bin\java.exe -Dmaven.multiModuleProjectDirectory=S:\Work\ae\Epita\workspaces\2023f-adv-java\exercises\training-exam -Djansi.passthrough=true "-Dmaven.home=C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\plugins\maven\lib\maven3" "-Dclassworlds.conf=C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\plugins\maven\lib\maven3\bin\m2.conf" "-Dmaven.ext.class.path=C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\plugins\maven\lib\maven-event-listener.jar" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\lib\idea_rt.jar=51111:C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\bin" -Dfile.encoding=UTF-8 -classpath "C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\plugins\maven\lib\maven3\boot\plexus-classworlds-2.6.0.jar;C:\Program Files\JetBrains\IntelliJ IDEA 2023.1\plugins\maven\lib\maven3\boot\plexus-classworlds.license" org.codehaus.classworlds.Launcher -Didea.version=2023.1 install
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ---------------------< org.example:training-exam >----------------------
+[INFO] Building training-exam 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ training-exam ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ training-exam ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 4 source files to S:\Work\ae\Epita\workspaces\2023f-adv-java\exercises\training-exam\target\classes
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ training-exam ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory S:\Work\ae\Epita\workspaces\2023f-adv-java\exercises\training-exam\src\test\resources
+[INFO]
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ training-exam ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to S:\Work\ae\Epita\workspaces\2023f-adv-java\exercises\training-exam\target\test-classes
+[INFO]
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ training-exam ---
+[INFO] Surefire report directory: S:\Work\ae\Epita\workspaces\2023f-adv-java\exercises\training-exam\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running fr.epita.tests.TestMVN2
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ training-exam ---
+[INFO] Building jar: S:\Work\ae\Epita\workspaces\2023f-adv-java\exercises\training-exam\target\training-exam-1.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ training-exam ---
+[INFO] Installing S:\Work\ae\Epita\workspaces\2023f-adv-java\exercises\training-exam\target\training-exam-1.0-SNAPSHOT.jar to C:\Users\Présentation\.m2\repository\org\example\training-exam\1.0-SNAPSHOT\training-exam-1.0-SNAPSHOT.jar
+[INFO] Installing S:\Work\ae\Epita\workspaces\2023f-adv-java\exercises\training-exam\pom.xml to C:\Users\Présentation\.m2\repository\org\example\training-exam\1.0-SNAPSHOT\training-exam-1.0-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.907 s
+[INFO] Finished at: 2024-05-29T15:39:01+02:00
+[INFO] ------------------------------------------------------------------------
+
+Process finished with exit code 0

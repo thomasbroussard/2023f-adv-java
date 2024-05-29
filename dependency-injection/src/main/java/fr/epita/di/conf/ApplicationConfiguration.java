@@ -7,6 +7,7 @@ import fr.epita.di.services.impl.PatientDAODerbyImpl;
 import fr.epita.di.services.impl.PatientDAOH2Impl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 
 @Configuration
@@ -22,7 +23,7 @@ public class ApplicationConfiguration {
     }
 
 
-    @Bean
+   // @Bean
     public IPatientDAO initializePatientDAO() throws Exception {
       // return new PatientDAOH2Impl();
         return new PatientDAODerbyImpl();
