@@ -9,6 +9,7 @@
         <module name="tdd-examples" />
         <module name="dependency-injection" />
         <module name="database-examples" />
+        <module name="logging-examples" />
         <module name="training-exam" />
       </profile>
     </annotationProcessing>

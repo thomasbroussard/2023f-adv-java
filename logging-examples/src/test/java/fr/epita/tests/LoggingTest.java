@@ -10,7 +10,7 @@ public class LoggingTest {
 
 
     public static void main(String[] args) {
-        LOGGER.info("test");
+        LOGGER.debug("test message");
     }
 
 }
