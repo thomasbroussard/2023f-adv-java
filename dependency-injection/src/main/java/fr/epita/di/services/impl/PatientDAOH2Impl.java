@@ -1,6 +1,6 @@
 package fr.epita.di.services.impl;
 
-import fr.epita.di.Patient;
+import fr.epita.di.datamodel.Patient;
 import fr.epita.di.services.api.IPatientDAO;
 
 import java.sql.*;

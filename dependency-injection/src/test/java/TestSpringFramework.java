@@ -1,4 +1,4 @@
-import fr.epita.di.Patient;
+import fr.epita.di.datamodel.Patient;
 import fr.epita.di.conf.ApplicationConfiguration;
 import fr.epita.di.services.api.IPatientDAO;
 import fr.epita.di.services.api.IService;

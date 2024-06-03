@@ -2,7 +2,7 @@ package fr.epita.di.services.api;
 
 
 
-import fr.epita.di.Patient;
+import fr.epita.di.datamodel.Patient;
 
 import java.util.List;
 
