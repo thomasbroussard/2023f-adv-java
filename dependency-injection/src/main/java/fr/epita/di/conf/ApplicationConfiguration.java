@@ -5,6 +5,8 @@ import fr.epita.di.services.api.IService;
 import fr.epita.di.services.impl.H2Service;
 import fr.epita.di.services.impl.PatientDAODerbyImpl;
 import fr.epita.di.services.impl.PatientDAOH2Impl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -12,6 +14,8 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 public class ApplicationConfiguration {
+
+    private static final Logger LOGGER = LogManager.getLogger(ApplicationConfiguration.class);
 
     @Bean
     public IService initializeService() {
@@ -23,9 +27,12 @@ public class ApplicationConfiguration {
     }
 
 
-   // @Bean
+    @Bean
     public IPatientDAO initializePatientDAO() throws Exception {
+        LOGGER.debug("about to load the dao instance");
       // return new PatientDAOH2Impl();
-        return new PatientDAODerbyImpl();
+        PatientDAODerbyImpl dao = new PatientDAODerbyImpl();
+        LOGGER.debug("returning this instance {}", dao);
+        return dao;
     }
 }

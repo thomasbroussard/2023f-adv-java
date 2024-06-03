@@ -2,6 +2,8 @@ import fr.epita.di.Patient;
 import fr.epita.di.conf.ApplicationConfiguration;
 import fr.epita.di.services.api.IPatientDAO;
 import fr.epita.di.services.api.IService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 public class TestSpringFramework {
+
+    private static final Logger LOGGER = LogManager.getLogger(TestSpringFramework.class);
 
     @Autowired
     IService service;
@@ -34,7 +38,8 @@ public class TestSpringFramework {
         //when
         dao.create(patient);
 
-        System.out.println(patient.getId());
+       LOGGER.info(patient.getId());
+
         //then
         Patient read = dao.read(patient.getId());
         Assertions.assertNotNull(read);
