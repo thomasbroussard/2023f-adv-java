@@ -2,10 +2,7 @@ package fr.epita.di.conf;
 
 import fr.epita.di.services.api.IPatientDAO;
 import fr.epita.di.services.api.IService;
-import fr.epita.di.services.impl.H2Service;
-import fr.epita.di.services.impl.HibernatePatientDAO;
-import fr.epita.di.services.impl.PatientDAODerbyImpl;
-import fr.epita.di.services.impl.PatientDAOH2Impl;
+import fr.epita.di.services.impl.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -14,7 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+import javax.sql.DataSource;
 import java.util.Properties;
 
 
@@ -43,20 +43,52 @@ public class ApplicationConfiguration {
     }
 
 
+
+
     @Bean
     public LocalSessionFactoryBean getSessionFactory(){
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-        DriverManagerDataSource dataSource = new DriverManagerDataSource("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "test", "test");
+        DriverManagerDataSource dataSource = getDriverManagerDataSource();
         sessionFactoryBean.setDataSource(dataSource);
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.put("hibernate.hbm2ddl.auto", "create");
+        Properties hibernateProperties = hibernateProperties();
         sessionFactoryBean.setHibernateProperties(hibernateProperties);
         sessionFactoryBean.setPackagesToScan("fr.epita.di.datamodel");
         return sessionFactoryBean;
     }
 
     @Bean
+    public DriverManagerDataSource getDriverManagerDataSource() {
+        return new DriverManagerDataSource("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "test", "test");
+    }
+
+    private static Properties hibernateProperties() {
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.put("hibernate.hbm2ddl.auto", "create");
+        return hibernateProperties;
+    }
+
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("fr.epita.di.datamodel"); // your package for entity classes
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaProperties(hibernateProperties());
+        return em;
+    }
+
+    @Bean
     public HibernatePatientDAO hibernatePatientDAO(){
         return new HibernatePatientDAO();
     }
+
+
+    @Bean
+    public HibernateDoctorDAO getDoctorDAO(SessionFactory sf) throws Exception {
+        return new HibernateDoctorDAO(sf);
+    }
+
+
 }
