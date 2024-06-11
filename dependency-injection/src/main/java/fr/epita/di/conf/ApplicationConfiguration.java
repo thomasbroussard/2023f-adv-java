@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
+import java.util.Properties;
+
 
 @Configuration
 public class ApplicationConfiguration {
@@ -46,6 +48,9 @@ public class ApplicationConfiguration {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         DriverManagerDataSource dataSource = new DriverManagerDataSource("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "test", "test");
         sessionFactoryBean.setDataSource(dataSource);
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.put("hibernate.hbm2ddl.auto", "create");
+        sessionFactoryBean.setHibernateProperties(hibernateProperties);
         sessionFactoryBean.setPackagesToScan("fr.epita.di.datamodel");
         return sessionFactoryBean;
     }
