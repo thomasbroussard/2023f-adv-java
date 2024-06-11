@@ -45,7 +45,7 @@ public class ApplicationConfiguration {
 
 
 
-    @Bean
+    //@Bean
     public LocalSessionFactoryBean getSessionFactory(){
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         DriverManagerDataSource dataSource = getDriverManagerDataSource();
@@ -77,6 +77,10 @@ public class ApplicationConfiguration {
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(hibernateProperties());
         return em;
+    }
+
+    @Bean public JPADoctorDAO getDoctorJPADAO(){
+        return new JPADoctorDAO();
     }
 
     @Bean
