@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.transaction.Transactional;
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
+@Transactional
 public class TestEntityManager {
 
 
@@ -21,6 +24,7 @@ public class TestEntityManager {
 
     @Test
     public void test(){
+
         Doctor d = new Doctor();
         d.setName("test");
         d.setId(1);
