@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -21,6 +22,7 @@ import java.util.Properties;
 
 
 @Configuration
+@ComponentScan(basePackages = "fr.epita.di.services.impl")
 public class ApplicationConfiguration {
 
     private static final Logger LOGGER = LogManager.getLogger(ApplicationConfiguration.class);
@@ -43,8 +45,6 @@ public class ApplicationConfiguration {
         LOGGER.debug("returning this instance {}", dao);
         return dao;
     }
-
-
 
 
     //@Bean

@@ -5,11 +5,13 @@ import fr.epita.di.conf.ApplicationConfiguration;
 import fr.epita.di.datamodel.Appointment;
 import fr.epita.di.datamodel.Doctor;
 import fr.epita.di.datamodel.Patient;
+import fr.epita.di.services.impl.DataService;
 import fr.epita.di.services.impl.JPADoctorDAO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -21,11 +23,15 @@ import java.util.Date;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 @Transactional
+@Commit
 public class TestEntityManager {
 
 
     @Autowired
     JPADoctorDAO doctorDAO;
+
+    @Autowired
+    DataService service;
 
 
     @PersistenceContext
@@ -42,22 +48,17 @@ public class TestEntityManager {
 
     @Test
     public void testCreateAppointment() {
-
         //given
         Doctor d = new Doctor();
         d.setName("test");
         d.setId(1);
         Patient patient = new Patient();
         patient.setName("testPatient");
-        Appointment appointment = new Appointment();
-        appointment.setDate(new Date());
-        appointment.setDoctor(d);
-        appointment.setPatient(patient);
-
-        //when
         em.persist(patient);
         em.persist(d);
-        em.persist(appointment);
+
+        //when
+        Appointment appointment = service.createAppointment(patient, d, new Date());
 
         //then
         Assertions.assertNotNull(em.find(Appointment.class, appointment.getId()));
