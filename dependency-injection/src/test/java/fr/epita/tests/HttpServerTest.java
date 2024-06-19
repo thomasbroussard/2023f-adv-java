@@ -9,13 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.*;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.Flow;
 
 public class HttpServerTest {
 
@@ -27,6 +20,7 @@ public class HttpServerTest {
 
        // clientCall();
         //task 1: GET /patients/1
+        getPatient("http://localhost:10990/patients/", "1");
         //task 2: POST /patients {'name':'toto'}
 
 
@@ -41,8 +35,11 @@ public class HttpServerTest {
 
                 switch (exchange.getRequestMethod().toUpperCase()) {
                     case "GET":
-                        exchange.getRequestURI();
-                        String patientId = null;
+
+                        URI requestURI = exchange.getRequestURI();
+                        String[] parts = requestURI.getPath().split("patients/");
+                        //identify path params using a url pattern like patients/{id}/otherPathElements
+                        String patientId =  parts[1];
                         //task1: analyze the request URI to extract the patient id
                         System.out.println(patientId);
                         // GET /patients/1
@@ -64,14 +61,16 @@ public class HttpServerTest {
         server.start();
     }
 
-    private static void clientCall() throws URISyntaxException, IOException, InterruptedException {
-        URI uri = new URI("http://localhost:10990/test");
+    private static void getPatient(String baseUrl, String patientId) throws URISyntaxException, IOException, InterruptedException {
+        URI uri = new URI(baseUrl + patientId);
         URLConnection urlConnection = uri.toURL().openConnection();
         urlConnection.connect();
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(urlConnection.getInputStream().readAllBytes());
         String response = new String(byteArrayInputStream.readAllBytes());
+        System.out.println(uri);
         System.out.println(response);
+
 
     }
 
