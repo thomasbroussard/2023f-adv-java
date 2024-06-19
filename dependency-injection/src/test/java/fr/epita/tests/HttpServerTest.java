@@ -1,19 +1,33 @@
 package fr.epita.tests;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import fr.epita.di.conf.ApplicationConfiguration;
 import fr.epita.di.datamodel.Patient;
 import fr.epita.di.services.impl.DataService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jmx.support.ObjectNameManager;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.net.*;
 
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@Transactional
+@Commit
 public class HttpServerTest {
 
 
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     //task3 make this autowired works correctly
     @Autowired
     DataService dataService;
@@ -24,7 +38,7 @@ public class HttpServerTest {
         InetSocketAddress address = new InetSocketAddress(10990);
         serverSetup(address);
 
-       // clientCall();
+        // clientCall();
         //task 1: GET /patients/1
         getPatient("http://localhost:10990/patients/", "1");
         //task 2: POST /patients {'name':'toto'}
@@ -40,32 +54,43 @@ public class HttpServerTest {
             @Override
             public void handle(HttpExchange exchange) throws IOException {
                 String response = "";
+                int responseCode = 200;
 
-                switch (exchange.getRequestMethod().toUpperCase()) {
-                    case "GET":
+                try {
+                    switch (exchange.getRequestMethod().toUpperCase()) {
+                        case "GET":
 
-                        URI requestURI = exchange.getRequestURI();
-                        String[] parts = requestURI.getPath().split("patients/");
-                        //identify path params using a url pattern like patients/{id}/otherPathElements
-                        String patientId =  parts[1];
-                        //task1: analyze the request URI to extract the patient id
-                        System.out.println(patientId);
-                        // GET /patients/1
-                        response = "{'id':1, 'name':'toto'}";
-                        break;
-                    case "POST":
-                        //task 2: analyze the request body to retrieve the json
-                        //string that corresponds to the patient under creation
-                        String patientFromRequestBody = new String(exchange.getRequestBody().readAllBytes());
-                        System.out.println(patientFromRequestBody);
+                            URI requestURI = exchange.getRequestURI();
+                            String[] parts = requestURI.getPath().split("patients/");
+                            //identify path params using a url pattern like patients/{id}/otherPathElements
+                            String patientId = parts[1];
+                            //task1: analyze the request URI to extract the patient id
+                            System.out.println(patientId);
+                            // GET /patients/1
+                            response = "{'id':1, 'name':'toto'}";
+                           // dataService.getPatient(Integer.parseInt(patientId));
+                            response = OBJECT_MAPPER.writeValueAsString(dataService.getPatient(Integer.parseInt(patientId)));
+                            break;
+                        case "POST":
+                            //task 2: analyze the request body to retrieve the json
+                            //string that corresponds to the patient under creation
+                            String patientFromRequestBody = new String(exchange.getRequestBody().readAllBytes());
+                            System.out.println(patientFromRequestBody);
 
-                        //task 4: use jackson to convert the raw string to a patient instance
-                        dataService.createPatient(new Patient());
-                        break;
+                            //task 4: use jackson to convert the raw string to a patient instance
+                            Patient patient = OBJECT_MAPPER.readValue(patientFromRequestBody, Patient.class);
+                            //dataService.createPatient(patient);
+                            exchange.getResponseHeaders().add("Location", "patients/" + patient.getId());
+                            responseCode = 201;
+                            break;
+
+                    }
+                } finally {
+                    exchange.sendResponseHeaders(responseCode, response.length());
+                    exchange.getResponseBody().write(response.getBytes());
+                    exchange.close();
                 }
-                exchange.sendResponseHeaders(200, response.length());
-                exchange.getResponseBody().write(response.getBytes());
-                exchange.close();
+
             }
         });
         server.start();
@@ -114,7 +139,6 @@ public class HttpServerTest {
             System.out.println("POST request not worked");
         }
     }
-
 
 
 }

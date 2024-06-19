@@ -6,7 +6,6 @@ import fr.epita.di.datamodel.Patient;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.Date;
@@ -29,9 +28,12 @@ public class DataService {
     }
 
 
-    @Transactional
+    @Transactional(Transactional.TxType.MANDATORY)
     public void createPatient(Patient patient){
         em.persist(patient);
     }
 
+    public Patient getPatient(int i) {
+       return em.find(Patient.class, i);
+    }
 }
