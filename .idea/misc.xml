@@ -9,7 +9,14 @@
         <option value="$PROJECT_DIR$/training-exam/pom.xml" />
         <option value="$PROJECT_DIR$/database-examples/pom.xml" />
         <option value="$PROJECT_DIR$/logging-examples/pom.xml" />
+        <option value="$PROJECT_DIR$/untitled/pom.xml" />
+        <option value="$PROJECT_DIR$/eventure/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/untitled/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="temurin-17" project-jdk-type="JavaSDK">
