@@ -28,4 +28,10 @@ public class DataService {
         return appointment;
     }
 
+
+    @Transactional
+    public void createPatient(Patient patient){
+        em.persist(patient);
+    }
+
 }

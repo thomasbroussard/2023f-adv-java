@@ -4,13 +4,19 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import fr.epita.di.datamodel.Patient;
+import fr.epita.di.services.impl.DataService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
 
 public class HttpServerTest {
+
+
+    //task3 make this autowired works correctly
+    @Autowired
+    DataService dataService;
 
 
     @Test
@@ -23,10 +29,12 @@ public class HttpServerTest {
         getPatient("http://localhost:10990/patients/", "1");
         //task 2: POST /patients {'name':'toto'}
 
+        postPatient("http://localhost:10990/patients/", "{'name':'toto'}");
+
 
     }
 
-    private static void serverSetup(InetSocketAddress address) throws IOException {
+    private void serverSetup(InetSocketAddress address) throws IOException {
         HttpServer server = HttpServer.create(address, 0);
         server.createContext("/patients", new HttpHandler() {
             @Override
@@ -48,9 +56,11 @@ public class HttpServerTest {
                     case "POST":
                         //task 2: analyze the request body to retrieve the json
                         //string that corresponds to the patient under creation
-                        exchange.getRequestBody();
-                        Patient patientFromRequestBody = null;
+                        String patientFromRequestBody = new String(exchange.getRequestBody().readAllBytes());
                         System.out.println(patientFromRequestBody);
+
+                        //task 4: use jackson to convert the raw string to a patient instance
+                        dataService.createPatient(new Patient());
                         break;
                 }
                 exchange.sendResponseHeaders(200, response.length());
@@ -70,9 +80,41 @@ public class HttpServerTest {
         String response = new String(byteArrayInputStream.readAllBytes());
         System.out.println(uri);
         System.out.println(response);
-
-
     }
+
+    private static void postPatient(String baseUrl, String patientData) throws URISyntaxException, IOException {
+        URI uri = new URI(baseUrl);
+        URL url = uri.toURL();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setRequestProperty("Content-Type", "application/json");
+        httpURLConnection.setDoOutput(true);
+
+        try (OutputStream os = httpURLConnection.getOutputStream()) {
+            byte[] input = patientData.getBytes("utf-8");
+            os.write(input, 0, input.length);
+        }
+
+        int responseCode = httpURLConnection.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()))) {
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                // print result
+                System.out.println(response.toString());
+            }
+        } else {
+            System.out.println("POST request not worked");
+        }
+    }
+
 
 
 }
