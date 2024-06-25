@@ -1,16 +1,14 @@
 package fr.epita.di.datamodel;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PATIENTS")
 public class Patient {
     @Id
     @Column(name = "pat_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name ="pat_name")

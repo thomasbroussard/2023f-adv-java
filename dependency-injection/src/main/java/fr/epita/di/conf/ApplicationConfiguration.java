@@ -15,6 +15,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -23,6 +24,7 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = "fr.epita.di.services.impl")
+@EnableTransactionManagement
 public class ApplicationConfiguration {
 
     private static final Logger LOGGER = LogManager.getLogger(ApplicationConfiguration.class);

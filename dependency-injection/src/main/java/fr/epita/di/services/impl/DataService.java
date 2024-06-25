@@ -29,7 +29,7 @@ public class DataService {
     }
 
 
-    @Transactional(Transactional.TxType.MANDATORY)
+    @Transactional(Transactional.TxType.REQUIRED)
     public void createPatient(Patient patient){
         em.persist(patient);
     }
