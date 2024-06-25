@@ -5,3 +5,6 @@ Content-Type: application/json
 {
   "name": "test From Client"
 }
+
+### send a get to retrieve a patient
+GET http://localhost:8080/api/patients/1

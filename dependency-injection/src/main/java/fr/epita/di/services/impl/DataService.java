@@ -12,6 +12,7 @@ import java.util.Date;
 
 
 @Repository
+@Transactional
 public class DataService {
 
     @PersistenceContext
