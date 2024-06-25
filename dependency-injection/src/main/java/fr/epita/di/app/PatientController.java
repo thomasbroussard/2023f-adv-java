@@ -1,5 +1,7 @@
 package fr.epita.di.app;
 
+import fr.epita.di.app.conversion.Mappers;
+import fr.epita.di.app.messages.PatientDTO;
 import fr.epita.di.datamodel.Patient;
 import fr.epita.di.services.impl.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ public class PatientController {
 
 
     @GetMapping(value = "/api/patients", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Patient>> getPatients(){
+    public ResponseEntity<List<PatientDTO>> getPatients(){
         Patient e1 = new Patient();
         e1.setName("test From REST");
         //TODO call the dataservice
@@ -25,19 +27,20 @@ public class PatientController {
     }
 
     @GetMapping(value = "/api/patients/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Patient> createPatient(@PathVariable("id") Integer id){
+    public ResponseEntity<PatientDTO> createPatient(@PathVariable("id") Integer id){
         System.out.println(id);
         //TODO log
         Patient patient = service.getPatient(id);
-        return ResponseEntity.ok(patient);
+        return ResponseEntity.ok( Mappers.dtoFromPatient(patient));
     }
 
     @PostMapping(value = "/api/patients",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Patient> createPatient(@RequestBody Patient patient){
-        service.createPatient(patient);
-        return ResponseEntity.ok(patient);
+    public ResponseEntity<PatientDTO> createPatient(@RequestBody PatientDTO patient){
+        Patient p = Mappers.patientFromDTO(patient);
+        service.createPatient(p);
+        return ResponseEntity.ok(Mappers.dtoFromPatient(p));
     }
 
 
