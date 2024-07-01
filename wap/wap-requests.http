@@ -1,0 +1,13 @@
+### GET request with a header
+GET https://localhost:8443/apiman-gateway/default2/users/1.0?apikey=156d9408-c35b-4ea1-9c6f-5bb5a553adb0
+Authorization: Basic test test
+
+
+
+### GET tokens
+POST http://localhost:8080/auth/realms/default/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=eventure-app&grant_type=password&username=test&password=test
+
+

@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="eventure" />
-        <module name="tdd-examples" />
         <module name="dependency-injection" />
         <module name="database-examples" />
         <module name="logging-examples" />
+        <module name="wap" />
+        <module name="eventure" />
+        <module name="tdd-examples" />
         <module name="training-exam" />
       </profile>
     </annotationProcessing>
