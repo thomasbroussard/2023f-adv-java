@@ -18,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 
 @ExtendWith(SpringExtension.class)
@@ -116,7 +117,7 @@ public class HttpServerTest {
         httpURLConnection.setDoOutput(true);
 
         try (OutputStream os = httpURLConnection.getOutputStream()) {
-            byte[] input = patientData.getBytes("utf-8");
+            byte[] input = patientData.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
         }
 
@@ -133,7 +134,7 @@ public class HttpServerTest {
                 }
 
                 // print result
-                System.out.println(response.toString());
+                System.out.println(response);
             }
         } else {
             System.out.println("POST request not worked");

@@ -11,6 +11,7 @@
         <module name="logging-examples" />
         <module name="wap" />
         <module name="eventure" />
+        <module name="revision-module" />
         <module name="tdd-examples" />
         <module name="training-exam" />
       </profile>

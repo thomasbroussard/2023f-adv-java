@@ -39,7 +39,7 @@ public class TestNeo4jConnection {
             Value value = row.get("n");
             Map<String, Object> properties = value.asEntity().asMap();
             System.out.println(properties);
-            System.out.println(String.valueOf(properties.get("name")));
+            System.out.println(properties.get("name"));
         }
     }
 

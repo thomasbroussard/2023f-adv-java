@@ -31,7 +31,7 @@ public class TestConnection {
         SearchControls searchCtls = new SearchControls();
 
         //Specify the attributes to return
-        String returnedAtts[]={"cn","sn"};
+        String[] returnedAtts ={"cn","sn"};
         searchCtls.setReturningAttributes(returnedAtts);
 
         //Specify the search scope

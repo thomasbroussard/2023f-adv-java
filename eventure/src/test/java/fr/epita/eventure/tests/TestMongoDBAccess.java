@@ -3,7 +3,7 @@ package fr.epita.eventure.tests;
 import com.mongodb.client.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.bson.Document;;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 import java.util.concurrent.TimeUnit;
 import org.bson.Document;
