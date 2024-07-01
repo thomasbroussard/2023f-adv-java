@@ -1,3 +1,5 @@
+package fr.epita.tests;
+
 import fr.epita.titanic.ApplicationConfiguration;
 import fr.epita.titanic.datamodel.Passenger;
 import fr.epita.titanic.services.DataService;

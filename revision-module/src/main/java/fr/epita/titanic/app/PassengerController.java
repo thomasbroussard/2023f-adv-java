@@ -4,9 +4,9 @@ import fr.epita.titanic.api.rest.resources.PassengerDTO;
 import fr.epita.titanic.datamodel.Passenger;
 import fr.epita.titanic.services.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,4 +35,40 @@ public class PassengerController {
 
     }
 
+
+    @PostMapping("/passengers")
+    public ResponseEntity<PassengerDTO> createPassenger(@RequestBody PassengerDTO dto) {
+        Passenger passenger = new Passenger();
+        passenger.setPassengerClass(dto.getPassengerClass());
+        passenger.setGender(dto.getGender());
+        passenger.setName(dto.getName());
+        passenger.setId(dto.getId());
+
+        service.create(passenger);
+        dto.setId(passenger.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    }
+
+    @PutMapping("/passengers/{id}")
+    public ResponseEntity<PassengerDTO> updatePassenger(@PathVariable Long id, @RequestBody PassengerDTO dto) {
+        Passenger passenger = service.findPassengerById(id);
+        if (passenger == null) {
+            return ResponseEntity.notFound().build();
+        }
+        passenger.setPassengerClass(dto.getPassengerClass());
+        passenger.setGender(dto.getGender());
+        passenger.setName(dto.getName());
+        service.update(passenger);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/passengers/{id}")
+    public ResponseEntity<Void> deletePassenger(@PathVariable Long id) {
+        Passenger passenger = service.findPassengerById(id);
+        if (passenger == null) {
+            return ResponseEntity.notFound().build();
+        }
+        service.delete(passenger);
+        return ResponseEntity.noContent().build();
+    }
 }

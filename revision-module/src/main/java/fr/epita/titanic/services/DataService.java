@@ -24,4 +24,18 @@ public class DataService {
         return o;
 
     }
+
+
+    public Passenger findPassengerById(Long id) {
+        return em.find(Passenger.class, id);
+    }
+
+    public void update(Passenger passenger) {
+        em.merge(passenger);
+    }
+
+    public void delete(Passenger passenger) {
+        em.remove(em.contains(passenger) ? passenger : em.merge(passenger));
+    }
+
 }
