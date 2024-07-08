@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+    <script src="config.js"></script>
+</head>
+<body>
+<h1>Users List</h1>
+<button id="getDataButton">Get Users</button>
+<button id="refreshTokensButton">Refresh Tokens</button>
+<div id="usersList"></div>
+
+<script>
+    const getDataButton = document.getElementById('getDataButton');
+    const refreshTokensButton = document.getElementById('refreshTokensButton');
+    const usersList = document.getElementById('usersList');
+
+    getDataButton.addEventListener('click', async () => {
+        const dataUrl = `${config.baseURL}/apiman-gateway/default2/users/1.0?apikey=${config.apikey}`;
+        const accessToken = localStorage.getItem('accessToken');
+
+        try {
+            const response = await fetch(dataUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            if (!response.ok) throw new Error('Data request failed');
+            const data = await response.json();
+            usersList.innerHTML = JSON.stringify(data, null, 2);
+            alert('Data received!');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to get data');
+        }
+    });
+
+    refreshTokensButton.addEventListener('click', async () => {
+        const refreshUrl = `${config.baseURL}/auth/realms/${config.realm}/protocol/openid-connect/token`;
+        const refreshToken = localStorage.getItem('refreshToken');
+        const body = new URLSearchParams({
+            client_id: config.clientId,
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken
+        });
+
+        try {
+            const response = await fetch(refreshUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: body.toString()
+            });
+
+            if (!response.ok) throw new Error('Token refresh failed');
+            const data = await response.json();
+            localStorage.setItem('accessToken', data.access_token);
+            localStorage.setItem('refreshToken', data.refresh_token);
+            alert('Tokens refreshed!');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to refresh tokens');
+        }
+    });
+</script>
+</body>
+</html>
